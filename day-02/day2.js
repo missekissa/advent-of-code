@@ -33,12 +33,10 @@ const part2 = () => {
         depth += f * aim;
     }
 
-    const downUp = line => {
-        line.includes("down") ? aim += value(line) : aim -= value(line); 
-    }
-
+    const downUp = line => line.includes("down") ? aim += value(line) : aim -= value(line); 
+    
     //console.log(value("forward 5"))
-    input.map(line => line.includes("forward") ? forward(value(line)): downUp(line));
+    input.forEach(line => line.includes("forward") ? forward(value(line)): downUp(line));
     return horizontal * depth;
 }
 
