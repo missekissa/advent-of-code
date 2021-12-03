@@ -2,10 +2,6 @@ const fs = require("fs");
 
 let input = fs.readFileSync("./input.txt", { encoding: "utf8" }).split("\n").map(line => line.replace("\r", ""));
 
-console.log(input);
-
-//console.log(input[0]);
-
 //Returns most common bit in the corresponding position
 const mostCommonBit = (position, array) => {
         let zero = 0;
@@ -18,8 +14,6 @@ const mostCommonBit = (position, array) => {
 const leastCommonBit = (position, array) => mostCommonBit(position, array) == "0" ? "1" : "0";
 
 const part1 = input => {
-    //let gammeRate = "";
-    //let epsilonRate = "";
 
     const gammaRate = () => {
         let gamma = "";
@@ -37,23 +31,8 @@ const part1 = input => {
         return epsilon;
     }
 
-    let gamma = gammaRate();
-    let epsilon = epsilonRate();
-    //console.log(mostCommonBit(0));
-   // console.log(leastCommonBit(0));
-    console.log("Gamma rate is: " + gamma);
-    console.log("Epsilon rate is: " + epsilon);
+    return parseInt(gammaRate(), 2) * parseInt(epsilonRate(), 2);
 
-    //Convert binary string to number
-    gamma = parseInt(gamma, 2);
-    epsilon = parseInt(epsilon, 2);
-
-    console.log(gamma);
-    console.log(epsilon);
-
-    return gamma * epsilon
-
-    //console.log(mostCommonBit(1));
 };
 
 const part2 = input => {
@@ -69,9 +48,7 @@ const part2 = input => {
 
         for (let i = 0; i < input[0].length; i++) {
             if (array.length > 1) 
-                array = filterByMostCommon(i, array);   
-            
-            console.log("Loop " + i + " "+array);
+                array = filterByMostCommon(i, array);               
         }
 
         return array;
@@ -82,37 +59,16 @@ const part2 = input => {
 
         for (let i = 0; i < input[0].length; i++) {
             if (array.length > 1) 
-                array = filterByLeastCommon(i, array);   
-            
-            console.log("Loop " + i + " "+array);
+                array = filterByLeastCommon(i, array);               
         }
-
         return array;
     }
 
-
-
-    let test1 = mostCommonBit(0, input);
-    console.log(test1);
-
     return parseInt(generatorRating(input), 2) * parseInt(scrubberRating(input), 2);
-    //return filterByMostCommon(0, input);
-
-    //return input.filter(x => x[0] == test1);
-
-    /*
-    const generatorCriteria = (position, array) => {
-        
-        //let bit = mostCommonBit(position, array);
-        //return array.filter(x => x[position] == bit);
-        //array.filter(x => x)
-
-    }
-    console.log(generatorCriteria(0, input)); */
+   
 };
 
-//console.log("Part 1 answer is: " + part1(input));
-console.log("debug:")
+console.log(part1(input));
 console.log(part2(input));
 
 
