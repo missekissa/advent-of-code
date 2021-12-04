@@ -23,20 +23,68 @@ const getBoard = board => board.split("\n").map(x => x.split(" ").filter(x => x)
 
 
 
-    //return board.split("\n").map(x => x.split(" "));
-    //
-    //return board.split("\r\n");
-
-
-//input = input.split("\r\n");
-//input = input.split("");
+//return board.split("\n").map(x => x.split(" "));
+//
+//return board.split("\r\n");
 
 //console.log(input);
 
-//console.log(numbers.length);
 
-//console.log(boards[0]);
-//console.log(boards.length);
+//Return the winning numbers
+const getNextNumber = (nextNumber) => {
+    return getNumbers(numbers)[nextNumber];
+}
+
+
+
+//Transform array
+const markBoard = (board, number) =>
+    board.map((row) =>
+        row.map((column) =>
+            (column == getNextNumber(number) ? "x" : column)
+        ));
+
+
+//check board for if it has won
+const checkWinner = (board) => {
+    let isWin = false;
+
+    //Check for row winner (WORKS)
+    board.forEach((_row, i) => {
+        if (board[i][0] == "x" && board[i][1] == "x" && board[i][2] == "x" && board[i][3] == "x" && board[i][4] == "x") {
+            isWin = true;
+        }
+
+        /*
+        let test= row.join("");
+       // console.log(test);
+        if (row == "xxxxx") {
+            isWin = true;
+        } */
+    });
+
+    //Check for colum winner (WORKS)
+    board[0].forEach((_x, i) => {
+        if (board[0][i] == "x" && board[1][i] == "x" && board[2][i] == "x" && board[3][i] == "x" && board[4][i] == "x") {
+            isWin = true;
+        }
+    });
+
+    return isWin;
+}
+
+
+const calculateResult = (board, i) => {
+        let result = [].concat(...board);
+        result = result.filter(x => x !== "x");
+        result = result.map(n => Number(n));
+        sum = result.reduce((x, n) => x + n);
+        console.log("Calculated result is: ");
+        //console.log(sum);
+        console.log(getNextNumber(i));
+        return sum * getNextNumber(i - 1);
+    }
+
 
 const part1 = (numbers, boards) => {
     console.log("------DEBUG-------");
@@ -44,68 +92,6 @@ const part1 = (numbers, boards) => {
     //console.log(boards);
 
     boards = boards.map(b => getBoard(b));
-    
-    const dimension = [boards.lenght, boards[0].lenght];
-    
-    console.log(boards);
-    //const row_count = boards.length;
-    //const colum_count = boards[0].length;
-
-    //numbers = getNumbers(numbers);
-
-    //console.log(boards[0]);
-
-    //Return the winning numbers
-    const getNextNumber = (nextNumber) => {
-        return getNumbers(numbers)[nextNumber];
-    }
-    
-    //Transform array
-    const markBoard = (board, number) => 
-        board.map((row) => 
-            row.map((column) => 
-                (column == getNextNumber(number) ? "x" : column)
-            ));
-    
-
-    //check board for if it has won
-    const checkWinner = (board) => {
-        let isWin = false;
-        
-        //Check for row winner (WORKS)
-        board.forEach((_row, i) => {
-            if (board[i][0] == "x" && board[i][1] == "x" && board[i][2] == "x" && board[i][3] == "x" && board[i][4] == "x") {
-                isWin = true;
-            }
-
-            /*
-            let test= row.join("");
-           // console.log(test);
-            if (row == "xxxxx") {
-                isWin = true;
-            } */
-        });
-
-        //Check for colum winner (WORKS)
-        board[0].forEach((_x, i) => {
-            if (board[0][i] == "x" && board[1][i] == "x" && board[2][i] == "x" && board[3][i] == "x" && board[4][i] == "x") {
-                isWin = true;
-            }
-        });
-        
-        return isWin;
-    }
-
-    const calculateResult = (winningBoard, i) => {
-        let result = [].concat(...winningBoard);
-        result = result.filter(x => x !== "x");
-        result = result.map(n => Number(n));
-        sum = result.reduce((x, n) => x + n); 
-        console.log("Calculated result is: ");
-        //console.log(sum);
-        console.log(getNextNumber(i));
-        return sum * getNextNumber(i-1);
-    }
 
     let result = 0;
     let isFound = false;
@@ -129,24 +115,92 @@ const part1 = (numbers, boards) => {
 
 
     return calculateResult(result, i);
-    //return result;
-    //Program execution
-    /*
-    while (true) {
+
+}
+
+
+const part2 = (numbers, boards) => {
+    console.log("------DEBUG-------");
+    //console.log(boards);
+
+    //console.log(boards.keys(boards).length);
+
+    boards = boards.map(b => getBoard(b));
+
+    console.log(boards.keys.length);
+    let result = 0;
+    let found = false;
+
+    let i = 0;
+
+    do {
         boards = boards.map(board => markBoard(board, i));
 
         boards.forEach((board) => {
+
+            if (boards.length == 1) {
+                    if (checkWinner(board) == true) {
+                        found = true;
+                        result = board;
+                    }     
+                } 
+            //console.log(board);
             if (checkWinner(board) == true) {
-                result = board;
-                exit;
+                console.log("Found!")
+                boards = boards.filter(x => x !== board);
+
+                console.log(boards.length);
+                
+    
+                //console.log("Result is:");
+                //console.log(board);
+                //result = board;
+                //isFound = true;
             }
 
         });
         i++
-    } 
 
-    */
-    console.log(result);
+    } while (!found)
+
+    return calculateResult(result, i);
+
+
+    //console.log(boards[0][0].lenght)
+    //console.log(boards[0].lenght);
+    //return calculateResult(boards, i);
+    //return boards;
+    //console.log(boards);
+    //return calculateResult(result, i);
+
+}
+
+
+
+//console.log(part1(numbers, boards));
+
+//console.log(boards.length);
+
+console.log(part2(numbers, boards));
+
+
+
+//console.log("Result is: ")
+
+/*
+console.log(input.length);
+
+console.log(numbers);
+
+console.log("Numbers array:");
+console.log(getNumbers(numbers));
+
+console.log("------");
+console.log(boards[0]);
+console.log("Board 2d array:");
+console.log(getBoard(boards[0]));
+
+ console.log(result);
 
     console.log("Size");
     console.log(dimension);
@@ -162,23 +216,4 @@ const part1 = (numbers, boards) => {
 
     console.log("Check for the winner: ");
     checkWinner(boards[0]);
-
-
-}
-
-//console.log("Result is: ")
-console.log(part1(numbers, boards));
-
-/*
-console.log(input.length);
-
-console.log(numbers);
-
-console.log("Numbers array:");
-console.log(getNumbers(numbers));
-
-console.log("------");
-console.log(boards[0]);
-console.log("Board 2d array:");
-console.log(getBoard(boards[0]));
 */
