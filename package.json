@@ -1,0 +1,20 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --testPathPattern=day-05/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/missekissa/advent-of-code.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/missekissa/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/missekissa/advent-of-code#readme"
+}

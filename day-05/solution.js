@@ -1,7 +1,12 @@
 const fs = require("fs");
 
-let input = fs.readFileSync("./example.txt", { encoding: "utf8" }).split("\n");
+//let input = fs.readFileSync("./example.txt", { encoding: "utf8" }).split("\n");
+//let input = fs.readFileSync("./day-05/example.txt", { encoding: "utf8" }).split("\n");
 //let input = fs.readFileSync("./input.txt", { encoding: "utf8" }).split("\n");
+
+let input = fs.readFileSync("./test.txt", { encoding: "utf8" }).split("\n");
+
+//console.log(input);
 
 const createEntry = (line) => {
     let array = line.match(/\d+/g).map(n => Number(n));
@@ -25,7 +30,7 @@ const createEntry = (line) => {
 const createCoverPoints = (obj) => {
     let result = [];
 
-    if (obj["x1"] == obj["x2"]) {
+    if (obj["x1"] === obj["x2"]) {
         let max = Math.max(obj["y1"], obj["y2"]);
         let min = Math.min(obj["y1"], obj["y2"]);
         for (min; min <= max; min++) {
@@ -37,7 +42,7 @@ const createCoverPoints = (obj) => {
         return result;
     };
 
-    if (obj["y1"] == obj["y2"]) {
+    if (obj["y1"] === obj["y2"]) {
         let max = Math.max(obj["x1"], obj["x2"]);
         let min = Math.min(obj["x1"], obj["x2"]);
         for (max; min <= max; max--) {
@@ -57,18 +62,32 @@ const foo = (coverPoints) => {
     // console.log(coverPoints.length);
     //let test = coverPoints.map(entry => entry.values(entry).join(""));
 
-    let test = coverPoints.map(entry => [entry["x"], entry["y"]].join(":"));
+    //ATTEMP 5
+    const counts = {};
+    
+    coverPoints.forEach((x) => 
+        counts[Object.entries(x)] = (counts[Object.entries(x)] || 0) + 1
+    );
+    //console.log(counts);
+
+    let result = 0;
+    Object.values(counts).forEach(n => n > 1 ? result++: 0);
+    return result;
+    //return counts;
+    //let test = coverPoints.map(entry => [entry["x"], entry["y"]].join(":"));
     // console.log("Test is:")
     
-    /* ATTEMPT 4
+
+    /*
     let unique = [...new Set(test)];
+    /* ATTEMPT 4
     
     console.log(test.length);
     console.log(unique.length);
 
     return test.length - unique.length;
     */
-
+    /*
     //ATTEMPT 3
     const counts = {};
     
@@ -76,13 +95,15 @@ const foo = (coverPoints) => {
         counts[x] = (counts[x] || 0) + 1;
     });
     //console.log(counts)
-    console.log(counts)
+    //console.log(counts)
 
     let result = 0;
-    Object.values(counts).forEach(n => n > 1 ? result++: 0);
+    Object.values(counts).forEach(n => n == 2 ? result++: 0);
+
+    
     //console.log(result);
     return result;
-    
+    */
 
     /*ATTEMPT 2
     console.log("Get duplicates:")
@@ -139,7 +160,12 @@ const foo = (coverPoints) => {
 //console.log(input);
 
 const part1 = (input) => {
-    filtered = input.filter(obj => obj["x1"] == obj["x2"] || obj["y1"] == obj["y2"]);
+    console.log(input);
+    //console.log(input[400]);
+    console.log(input.length);
+    filtered = input.filter(obj => obj["x1"] === obj["x2"] || obj["y1"] === obj["y2"]);
+
+    console.log(filtered.length);
     let coverPoints = filtered.map(entry => createCoverPoints(entry)).flat();
 
 
@@ -157,7 +183,7 @@ const part1 = (input) => {
 const entries = input.map(line => createEntry(line));
 console.log(part1(entries));;
 
-/*
+
 console.log("----DEBUG----");
 
 let testEntry1 = {
@@ -179,4 +205,11 @@ console.log(createCoverPoints(testEntry1));
 console.log("\n");
 console.log(testEntry1);
 console.log(createCoverPoints(testEntry2));
-*/
+
+
+module.exports = {
+    createEntry,
+    createCoverPoints,
+    foo,
+    part1
+}
