@@ -7,15 +7,15 @@ const timerReset = 6; //lanternfish that creates a new fish resets its timer to 
 
 const fishCount = (day, input) => {
     let fishes = [...Array(timerLength).map((_, i) => i)].fill(0);
-    let array = fishes.slice();
 
     for (let fish in input) {
         fishes[input[fish]]++;
     }
 
+    let state;
     for (let i = 0; i < day; i++) {
-        array = fishes.slice(1).concat(fishes[0]).map((n, i) => i == timerReset ? n + fishes[0] : n);    
-        fishes = array.slice();
+        state = fishes.slice(1).concat(fishes[0]).map((n, i) => i == timerReset ? n + fishes[0] : n);    
+        fishes = state.slice();
     }
 
     return fishes.reduce((previousValue, currentValue ) => previousValue + currentValue);
