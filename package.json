@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/missekissa/advent-of-code/issues"
   },
-  "homepage": "https://github.com/missekissa/advent-of-code#readme"
+  "homepage": "https://github.com/missekissa/advent-of-code#readme",
+  "dependencies": {
+    "mathjs": "^10.0.0"
+  }
 }
