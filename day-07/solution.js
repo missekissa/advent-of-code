@@ -8,11 +8,7 @@ const _median = median(input);
 const meanCeil = Math.ceil(mean(input));
 const meanFloor = Math.floor(mean(input));
 
-const fuelCost = (position, cheapestPosition) => {
-    let min = Math.min(position, cheapestPosition);
-    let max = Math.max(position, cheapestPosition);
-    return max - min;
-}
+const fuelCost = (position, cheapestPosition) => Math.abs(position - cheapestPosition);
 
 const part1 = input => input.reduce((sum, crab) => sum + fuelCost(crab, _median), 0);
 
