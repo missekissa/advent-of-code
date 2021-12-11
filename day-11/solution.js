@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { cosDependencies } = require("mathjs");
 const path = require("path");
 
 const parseEnergyLevels = input => input.map(line => line.match(/\d/g).map(n => Number(n)));
@@ -19,34 +18,20 @@ const adjacent = (x, y, levels) => {
         }
     }
     return levels;
-
-    let arr = [
-        levels?.[x - 1]?.[y],
-        levels?.[x + 1]?.[y],
-        levels?.[x]?.[y - 1],
-        levels?.[x]?.[y + 1],
-        levels?.[x - 1]?.[y - 1], //Dialogical
-        levels?.[x - 1]?.[y + 1],
-        levels?.[x + 1]?.[y + 1],
-        levels?.[x + 1]?.[y - 1]
-    ];
-
-    return arr.filter(n => n !== undefined);
 }
 
 const increaseEnergy = levels => levels.map(row => row.map(column => column + 1));
 
-//const increaseEnergy = levels => levels.map(row => row.map(column => column > 0 ? column + 1 : column++));
-
-//TODO increases the energy level of all adjacent octopuses by 1 after flash
-const foo = (levels) => {
+const foo = (levels, count) => {
     let flash = false;
+    let num = count;
     let x, y;
 
     levels = levels.map((row, i) => {
         return row.map((column, j) => {
             if (column > 9 && flash == false) {
                 flash = true;
+                num+=1;
                 //console.log("Called!")
                 x = i;
                 y = j;
@@ -61,22 +46,28 @@ const foo = (levels) => {
         levels = adjacent(x, y, levels);
     }
 
-    return flash == true ? foo(levels) : levels; //Recursive call
+    return flash == true ? foo(levels, num): [levels, num]; //Recursive call
 }
 
 const part1 = (input) => {
-    let flashes = 0;
+    let count = 0;
+    let energyLevels = input;
+    for (let i = 0; i < 100; i++) {
+        energyLevels = increaseEnergy(energyLevels);
+        [energyLevels, count] = foo(energyLevels, count);
+    }
 
-    //console.log(input?.[0][0]);
-    //console.log(input?.[-1]?.[0]);
-
-    return input;
+    return count;
 }
 
 let energyLevels = parseEnergyLevels(testcase);
 
+let initialLevels = parseEnergyLevels(input);
+
 //console.log(part1(parseEnergyLevels(testcase)));
 
+console.log(part1(initialLevels));
+/*
 console.log("---DEBUG---");
 //console.log(adjacent(0, 0, energyLevels));
 //console.log(energyLevels);
@@ -94,3 +85,4 @@ console.log("After step 2:");
 energyLevels = increaseEnergy(energyLevels);
 energyLevels = foo(energyLevels);
 console.log(foo(energyLevels));
+*/
