@@ -60,13 +60,48 @@ const part1 = (input) => {
     return count;
 }
 
+const part2 = (input) => {
+    let count = 0;
+    let energyLevels = input;
+    let steps = 0;
+    let simultaneously = false;
+
+    do {
+        energyLevels = increaseEnergy(energyLevels);
+        [energyLevels, count] = foo(energyLevels, count);
+
+        steps++;
+        let allzeroes = true;
+        energyLevels.forEach(row => {
+            row.forEach(column => {
+                if (column !== 0) {
+                    //console.log("Called!");
+                    allzeroes = false;
+                }
+            })
+            
+        });
+        
+        if (allzeroes == true) {
+            simultaneously = true;
+        }
+
+
+    } while (simultaneously == false)
+
+    return steps;
+}
+
+
 let energyLevels = parseEnergyLevels(testcase);
 
 let initialLevels = parseEnergyLevels(input);
 
 //console.log(part1(parseEnergyLevels(testcase)));
 
-console.log(part1(initialLevels));
+//console.log(part1(initialLevels));
+console.log(part2(initialLevels));
+
 /*
 console.log("---DEBUG---");
 //console.log(adjacent(0, 0, energyLevels));
