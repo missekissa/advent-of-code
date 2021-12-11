@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { cosDependencies } = require("mathjs");
 const path = require("path");
 
 const parseEnergyLevels = input => input.map(line => line.match(/\d/g).map(n => Number(n)));
@@ -17,7 +18,6 @@ const adjacent = (x, y, levels) => {
             }
         }
     }
-
     return levels;
 
     let arr = [
@@ -36,6 +36,7 @@ const adjacent = (x, y, levels) => {
 
 const increaseEnergy = levels => levels.map(row => row.map(column => column + 1));
 
+//const increaseEnergy = levels => levels.map(row => row.map(column => column > 0 ? column + 1 : column++));
 
 //TODO increases the energy level of all adjacent octopuses by 1 after flash
 const foo = (levels) => {
@@ -43,15 +44,15 @@ const foo = (levels) => {
     let x, y;
 
     levels = levels.map((row, i) => {
-        return row.map((level, j) => {
-            if (level > 9 && flash == false) {
+        return row.map((column, j) => {
+            if (column > 9 && flash == false) {
                 flash = true;
-                console.log("Called!")
+                //console.log("Called!")
                 x = i;
                 y = j;
                 return 0;
             } else {
-                return level;
+                return column;
             }
         });
     });
@@ -60,15 +61,14 @@ const foo = (levels) => {
         levels = adjacent(x, y, levels);
     }
 
-
     return flash == true ? foo(levels) : levels; //Recursive call
 }
 
 const part1 = (input) => {
     let flashes = 0;
 
-    console.log(input?.[0][0]);
-    console.log(input?.[-1]?.[0]);
+    //console.log(input?.[0][0]);
+    //console.log(input?.[-1]?.[0]);
 
     return input;
 }
@@ -83,8 +83,14 @@ console.log("---DEBUG---");
 //console.log("After:");
 //console.log(increaseEnergy(energyLevels));
 console.log("Before any steps:");
-console.log(foo(energyLevels));
-console.log("Increase energy by one:");
-energyLevels = increaseEnergy(energyLevels);
-console.log(foo(energyLevels));
+console.log(energyLevels);
 
+console.log("After step 1:");
+energyLevels = increaseEnergy(energyLevels);
+energyLevels = foo(energyLevels);
+console.log(energyLevels);
+
+console.log("After step 2:");
+energyLevels = increaseEnergy(energyLevels);
+energyLevels = foo(energyLevels);
+console.log(foo(energyLevels));
