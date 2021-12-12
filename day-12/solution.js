@@ -7,12 +7,18 @@ const createGraph = input => {
     const graph = new Map();
 
     for (line of input) {
-        [cave, connectedToCave] = line.match(/[A-Za-z]+/g);
+        [caveA, caveB] = line.match(/[A-Za-z]+/g);
 
-        if (!graph.has(cave))
-            graph.set(cave, [connectedToCave]);
+        if (!graph.has(caveA))
+            graph.set(caveA, [caveB]);
         else
-            graph.get(cave).push(connectedToCave);
+            graph.get(caveA).push(caveB);
+
+        if (!graph.has(caveB))
+            graph.set(caveB, [caveA]);
+        else
+            graph.get(caveB).push(caveA);
+
     }
     return graph;
 }
