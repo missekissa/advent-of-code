@@ -23,13 +23,36 @@ const createGraph = input => {
     return graph;
 }
 
+let graph = createGraph(example1);
+
+const dfs = (graph, start = "start", visited = new Set()) =>{
+    visited.add(start);
+    const destinations = graph.get(start);
+    
+    for (destination of destinations) {
+        if (destination == "end") {
+            console.log("Found the end!");
+            return;
+        }
+
+        if (!visited.has(destination)) {
+            dfs(graph, destination, visited);
+        }
+    }
+
+    return visited;
+}
+
+
 const part1 = () => {
 
 }
 
 console.log("--DEBUG--");
 console.log(example1);
-console.log("Grap: ");
-let grap = createGraph(example1)
-console.log(grap);
+console.log("Graph: ");
+//let graph = createGraph(example1)
+console.log(graph);
 
+console.log("dfs:")
+console.log(dfs(graph));
